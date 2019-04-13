@@ -1,14 +1,10 @@
-var express = require('express')
-var proxy = require('express-http-proxy');
-var app = express()
-
-app.set('trust proxy', true);
-
-app.set('port', (process.env.PORT || 5000))
-app.use(proxy('https://www.instagram.com',{
-  preserveHostHdr: true
-}));
-
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'))
-})
+const httpProxy = require('http-proxy')
+httpProxy.createServer({
+  target: {
+    protocol: 'https:',
+    host: 'www.instagram.com',
+    hostname: 'www.instagram.com'
+    // port: '80'
+  },
+  changeOrigin: true
+}).listen(process.env.PORT || 5000)
